@@ -118,7 +118,9 @@ export function CursorWingTrail() {
 
     const isOverInteractive = (x: number, y: number) => {
       const element = document.elementFromPoint(x, y);
-      return !!element?.closest('a, button, [role="button"], .banner-social-link, select, input, textarea');
+      return !!element?.closest(
+        'a, button, [role="button"], [data-marquee-social-link], select, input, textarea',
+      );
     };
 
     const processMove = (event: MouseEvent) => {
@@ -199,5 +201,11 @@ export function CursorWingTrail() {
     };
   }, []);
 
-  return <div ref={containerRef} className="cursor-wing-trail" aria-hidden="true" />;
+  return (
+    <div
+      ref={containerRef}
+      className="cursor-wing-trail pointer-events-none fixed inset-0 z-[9998] overflow-hidden"
+      aria-hidden="true"
+    />
+  );
 }

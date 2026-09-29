@@ -1,9 +1,10 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
-import './styles/style.css';
-import './styles/home.css';
-import './styles/cursor-wing.css';
+import './index.css';
+import { startScrollingTitle } from './utils/scrollingTitle';
+
+startScrollingTitle();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

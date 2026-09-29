@@ -1,0 +1,196 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Fredoka';
+  src: url('/assets/fonts/fredoka.ttf') format('truetype');
+  font-weight: 300 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'KawaiiStitch';
+  src: url('/assets/fonts/kawaiistitch.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@layer base {
+  html {
+    @apply text-base leading-[1.4] text-[#222];
+  }
+
+  body {
+    @apply m-0 overflow-x-hidden bg-body-pink font-fredoka text-soft-dark;
+    background-image: url('/assets/bg/static-bg-1.jpg');
+    background-repeat: repeat;
+    background-size: 220px;
+    background-attachment: scroll;
+    cursor: url('/assets/cursors/ribbon.gif'), auto;
+  }
+
+  @media (min-width: 600px) {
+    body {
+      background-size: 280px;
+    }
+  }
+
+  @media (min-width: 900px) {
+    body {
+      background-size: 350px;
+    }
+  }
+
+  a,
+  button,
+  select,
+  input,
+  textarea {
+    cursor: url('/assets/cursors/ribbon.gif'), pointer !important;
+  }
+
+  ::selection {
+    @apply bg-[#b3d4fc];
+    text-shadow: none;
+  }
+}
+
+@layer components {
+  .puffy-border {
+    --puffy-color: #fff;
+    --puffy-depth: 8px;
+    border-radius: 20px;
+    border: var(--puffy-depth) solid var(--puffy-color);
+    box-shadow:
+      0 0 0 2px rgba(255, 183, 178, 0.45),
+      0 4px 0 0 #f5e6e0,
+      0 6px 16px rgba(255, 133, 162, 0.16);
+  }
+
+  @media (min-width: 600px) {
+    .puffy-border {
+      --puffy-depth: 12px;
+      border-radius: 28px;
+    }
+  }
+
+  @media (min-width: 900px) {
+    .puffy-border {
+      --puffy-depth: 14px;
+      border-radius: 36px;
+    }
+  }
+
+  .cursor-wing {
+    position: fixed;
+    width: var(--wing-span, 22px);
+    height: var(--wing-height, 14px);
+    pointer-events: none;
+    opacity: 0;
+    transform-origin: center top;
+    transform: translate(-50%, 0) rotate(var(--wing-rotate, 0deg))
+      scale(var(--wing-scale, 1));
+    animation: cursor-wing-tail var(--wing-duration, 900ms) ease-out forwards;
+    will-change: transform, opacity, filter;
+  }
+
+  .cursor-wing__side {
+    position: absolute;
+    top: 0;
+    width: 54%;
+    height: 100%;
+    background:
+      radial-gradient(
+        circle at 72% 24%,
+        rgba(255, 255, 255, 1) 0%,
+        rgba(255, 255, 255, 0) 48%
+      ),
+      linear-gradient(160deg, #ffffff 0%, #ffe0ec 42%, #ffb7d5 100%);
+    box-shadow:
+      0 0 10px rgba(255, 182, 213, 0.95),
+      0 0 16px rgba(255, 133, 162, 0.55);
+    filter: drop-shadow(0 1px 3px rgba(255, 133, 162, 0.35));
+  }
+
+  .cursor-wing__side::before {
+    content: '';
+    position: absolute;
+    inset: 18% 22% 28% 10%;
+    border-top: 1px solid rgba(255, 255, 255, 0.95);
+    border-radius: 999px;
+    opacity: 0.85;
+    transform: rotate(-8deg);
+  }
+
+  .cursor-wing__side::after {
+    content: '';
+    position: absolute;
+    inset: 38% 30% 12% 18%;
+    border-top: 1px solid rgba(255, 220, 235, 0.9);
+    border-radius: 999px;
+    opacity: 0.7;
+    transform: rotate(-4deg);
+  }
+
+  .cursor-wing__side--left {
+    right: 44%;
+    border-radius: 100% 8% 82% 24%;
+    transform: rotate(-10deg) skewY(-5deg);
+    transform-origin: right center;
+  }
+
+  .cursor-wing__side--right {
+    left: 44%;
+    border-radius: 8% 100% 24% 82%;
+    transform: rotate(10deg) skewY(5deg);
+    transform-origin: left center;
+  }
+
+  .cursor-wing--link .cursor-wing__side {
+    background:
+      radial-gradient(
+        circle at 72% 24%,
+        rgba(255, 255, 255, 1) 0%,
+        rgba(255, 255, 255, 0) 48%
+      ),
+      linear-gradient(160deg, #ffffff 0%, #ffc0d9 45%, #ff85a2 100%);
+    box-shadow:
+      0 0 12px rgba(255, 182, 213, 0.95),
+      0 0 18px rgba(230, 0, 126, 0.45);
+  }
+
+  .cursor-wing--click {
+    animation-duration: calc(var(--wing-duration, 900ms) * 1.05);
+  }
+}
+
+@keyframes cursor-wing-tail {
+  0% {
+    opacity: 0.96;
+    filter: drop-shadow(0 0 8px rgba(255, 133, 162, 0.9));
+    transform: translate(-50%, 0) rotate(var(--wing-rotate, 0deg))
+      scale(calc(var(--wing-scale, 1) * 0.92));
+  }
+
+  30% {
+    filter: drop-shadow(0 0 10px rgba(230, 0, 126, 0.85));
+  }
+
+  100% {
+    opacity: 0;
+    filter: drop-shadow(0 0 3px rgba(255, 133, 162, 0.3));
+    transform: translate(
+        calc(-50% + var(--wing-drift-x, 0px)),
+        var(--wing-drift-y, 20px)
+      )
+      rotate(calc(var(--wing-rotate, 0deg) + 18deg))
+      scale(calc(var(--wing-scale, 1) * 0.58));
+  }
+}
+
+@media (prefers-reduced-motion: reduce), (pointer: coarse) {
+  .cursor-wing-trail {
+    display: none;
+  }
+}

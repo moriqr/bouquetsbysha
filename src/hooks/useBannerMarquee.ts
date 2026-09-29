@@ -21,14 +21,14 @@ export function useBannerMarquee() {
       return;
     }
 
-    const sets = track.querySelectorAll('.banner-marquee-set');
+    const sets = track.querySelectorAll('[data-marquee-set]');
     sets.forEach((set, index) => {
       if (index >= 2) {
         set.remove();
       }
     });
 
-    const templateSet = track.querySelector('.banner-marquee-set');
+    const templateSet = track.querySelector('[data-marquee-set]');
     if (!templateSet) {
       return;
     }
@@ -39,7 +39,7 @@ export function useBannerMarquee() {
       track.appendChild(templateSet.cloneNode(true));
     }
 
-    track.querySelectorAll('.banner-social-link').forEach((linkEl, index) => {
+    track.querySelectorAll('[data-marquee-social-link]').forEach((linkEl, index) => {
       const link = socialLinks[index % socialLinks.length];
       if (!(linkEl instanceof HTMLAnchorElement)) {
         return;
@@ -106,7 +106,7 @@ export function useBannerMarquee() {
   const handleMarqueeClick = useCallback(
     (event: MouseEvent<HTMLDivElement>) => {
       const target = event.target as Element;
-      if (!target.closest('.banner-social-link')) {
+      if (!target.closest('[data-marquee-social-link]')) {
         resumeMarquee();
       }
     },
@@ -115,7 +115,7 @@ export function useBannerMarquee() {
 
   const handleTrackPointerDown = useCallback(
     (event: PointerEvent<HTMLDivElement>) => {
-      if ((event.target as Element).closest('.banner-social-link')) {
+      if ((event.target as Element).closest('[data-marquee-social-link]')) {
         pauseMarquee();
       }
     },
@@ -123,7 +123,7 @@ export function useBannerMarquee() {
   );
 
   const handleTrackClick = useCallback((event: MouseEvent<HTMLDivElement>) => {
-    const link = (event.target as Element).closest('.banner-social-link');
+    const link = (event.target as Element).closest('[data-marquee-social-link]');
     if (link instanceof HTMLAnchorElement && link.getAttribute('href') === '#') {
       event.preventDefault();
     }
